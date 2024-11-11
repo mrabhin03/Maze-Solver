@@ -51,11 +51,11 @@ h1{
   }
   .Path{
     background-color: yellow !important;
-    animation: pathinsert .3s ease-in-out forwards ;
+    animation: pathinsert .4s ease-in-out forwards ;
   
   }
   .pass{
-    animation: pathinsert2 .1s ease-in-out forwards ;
+    animation: pathinsert2 .4s ease-in-out forwards ;
     background-color:  greenyellow !important;
   }
   @keyframes pathinsert {
@@ -63,7 +63,7 @@ h1{
       transform: scale(1);
     }
     50%{
-      transform: scale(1.6);
+      transform: scale(1.4);
     }
     100%{
       transform: scale(1);
@@ -74,7 +74,7 @@ h1{
       transform: scale(1);
     }
     50%{
-      transform: scale(1.6);
+      transform: scale(1.4);
     }
     100%{
       transform: scale(1);
