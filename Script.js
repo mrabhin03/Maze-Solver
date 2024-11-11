@@ -88,6 +88,7 @@ async function findWay(){
     start=Exits[0];
     if(!(await nextMove(start[0],start[1]))){
         alert('No Path Found')
+        reset=true;
     }else{
         finished()
     }
@@ -190,6 +191,8 @@ async function fastWay() {
         console.log(path);
         await removeNonPath(path);
     } else {
+alert('No Path Found')
+reset=true;
     }
 }
 
