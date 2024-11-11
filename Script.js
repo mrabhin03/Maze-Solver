@@ -78,8 +78,11 @@ function wallData(row,col){
     }
 }
 async function findWay(){
+    resetall()
     start=Exits[0];
-    if(await nextMove(start[0],start[1])){
+    if(!(await nextMove(start[0],start[1]))){
+        alert('No Path Found')
+    }else{
 
     }
 
@@ -89,7 +92,6 @@ function sleep(ms) {
 }
 async function nextMove(row,col){
     let nextvalue=nonWall(row,col);
-    console.log(nextvalue)
     await sleep(1)
     for(let i=0;i<nextvalue.length;i++){
         if(await finishCheck(nextvalue[i][0],nextvalue[i][1])){
@@ -122,7 +124,36 @@ function nonWall(row,col){
 
 function finishCheck(row,col){
     if(document.getElementById((row)+","+col).classList.contains('End')){
-        console.log("FINSIH")
+        console.log("FINSIH ")
+        finished()
         return true
     }
+}
+async function finished(){
+    for(ii=max-1;ii>=0;ii--){
+        await sleep(20)
+        for(iii=max-1;iii>=0;iii--){
+            let object=document.getElementById((ii)+","+(iii));
+            if(object.classList.contains('Path')){
+                object.classList.add('pass')
+            }
+        }
+    }
+    for(ii=max-1;ii>=0;ii--){
+        await sleep(20)
+        for(iii=max-1;iii>=0;iii--){
+            let object=document.getElementById((ii)+","+(iii));
+            if(object.classList.contains('Path')){
+                object.classList.remove('pass')
+            }
+        }
+    }
+}
+function resetall(){
+    Paths=[];
+    objects=document.querySelectorAll(".Path");
+    objects.forEach((elemant)=>{
+
+        elemant.classList.remove('Path')
+    })
 }

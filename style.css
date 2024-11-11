@@ -54,6 +54,9 @@ h1{
     animation: pathinsert .3s ease-in-out forwards ;
   
   }
+  .pass{
+    animation: pathinsert2 .5s ease-in-out forwards ;
+  }
   @keyframes pathinsert {
     0%{
       transform: scale(1);
@@ -64,4 +67,41 @@ h1{
     100%{
       transform: scale(1);
     }
+  }
+  @keyframes pathinsert2 {
+    0%{
+      transform: scale(1);
+      background-color: green !important;
+    }
+    50%{
+      transform: scale(1.2);
+      background-color: green !important;
+    }
+    100%{
+      transform: scale(1);
+      background-color: green !important;
+    }
+  }
+  .class_action{
+    display: flex;
+    gap: 10px;
+  }
+  .class_action>button:first-child{
+    background-color: white;
+    color: black;
+  }
+  .solver{
+    background-color: rgb(0, 132, 255);
+    border: none;
+    padding: 8px 20px;
+    color: white;
+    border-radius: 5px;
+    transition: all .3s ease-in-out;
+    cursor: pointer;
+  }
+  .solver:hover{
+    transform: scale(1.05);
+  }
+  .solver:active{
+    transform: scale(0.96);
   }
