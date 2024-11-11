@@ -1,6 +1,6 @@
 const questionDiv = document.getElementById('question');
 let Exits = [];
-const max = 50;
+const max = 30;
 function inputInsert() {
     
     Exits[0] = [1, 1];              
