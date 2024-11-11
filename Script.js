@@ -1,6 +1,7 @@
 const questionDiv = document.getElementById('question');
 let Exits = [];
 const max = 30;
+reset=true;
 function inputInsert() {
     
     Exits[0] = [1, 1];              
@@ -80,11 +81,15 @@ function wallData(row,col){
 }
 async function findWay(){
     resetall()
+    if(!reset){
+        return
+    }
+    reset=false;
     start=Exits[0];
     if(!(await nextMove(start[0],start[1]))){
         alert('No Path Found')
     }else{
-
+        finished()
     }
 
 }
@@ -125,8 +130,6 @@ function nonWall(row,col){
 
 function finishCheck(row,col){
     if(document.getElementById((row)+","+col).classList.contains('End')){
-        console.log("FINSIH ")
-        finished()
         return true
     }
 }
@@ -149,12 +152,100 @@ async function finished(){
             }
         }
     }
+    reset=true;
 }
 function resetall(){
-    Paths=[];
-    objects=document.querySelectorAll(".Path");
-    objects.forEach((elemant)=>{
-
-        elemant.classList.remove('Path')
-    })
+    if(reset){
+        Paths=[];
+        objects=document.querySelectorAll(".Path");
+        objects.forEach((elemant)=>{
+            elemant.classList.remove('Path')
+        })
+    }
 }
+async function removeNonPath(correctPath) {
+    await sleep(500);
+    reset=true
+    resetall()
+    reset=false
+    correctPath.forEach(element => {
+        console.log((element))
+        document.getElementById((element[0]) + "," + (element[1])).classList.add('Path');
+    });
+    finished()
+}
+
+async function fastWay() {
+    resetall()
+    if(!reset){
+        return
+    }
+    reset=false
+    let start = [];
+    start.push(Exits[0]);
+    let doubles=[]
+    if (await fastMove(start,doubles)) {
+        
+        const path = findPath(Exits[1],doubles);
+        console.log(path);
+        await removeNonPath(path);
+    } else {
+    }
+}
+
+
+async function fastMove(Paths,doubles) {
+    let tempPath = [];
+    await sleep(10);
+    for (const element of Paths) {
+        let nextvalue = nonWall(element[0], element[1]);
+
+        for (let i = 0; i < nextvalue.length; i++) {
+            if (await finishCheck(nextvalue[i][0], nextvalue[i][1])) {     
+                doubles.push([[element[0], element[1]],[nextvalue[i][0], nextvalue[i][1]]])    
+                return true;
+            }
+        }
+
+        for (let i = 0; i < nextvalue.length; i++) {
+            let nextobject = document.getElementById((nextvalue[i][0]) + "," + (nextvalue[i][1]));
+            nextobject.classList.add("Path");
+            doubles.push([[element[0], element[1]],[nextvalue[i][0], nextvalue[i][1]]])
+            tempPath.push([nextvalue[i][0], nextvalue[i][1]]);
+        }
+    }
+
+    if (tempPath.length === 0) {
+        return false;
+    }
+
+    if (await fastMove(tempPath,doubles)) {
+        return true;
+    }
+
+    return false;
+}
+function areArraysEqual(arr1, arr2) {
+    return arr1[0] === arr2[0] && arr1[1] === arr2[1];
+}
+
+function findPath(start,data) {
+    let result = [start];
+    let current = start;
+    while (!areArraysEqual(current, [1, 1])) {
+        let found = false;
+        for (let i = 0; i < data.length; i++) {
+            if (areArraysEqual(data[i][1], current)) {
+                result.unshift(data[i][0]); 
+                current = data[i][0];
+                found = true;
+                break;
+            }
+        }
+        if (!found) break; 
+    }
+
+    return result;
+}
+
+
