@@ -4,7 +4,7 @@ body,html{
     background-color: rgb(28, 28, 28);
 }
 :root{
-  --Size:15px;
+  --Size:10px;
 }
 body{
   font-family: sans-serif;

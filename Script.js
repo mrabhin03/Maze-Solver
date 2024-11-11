@@ -1,6 +1,6 @@
 const questionDiv = document.getElementById('question');
 let Exits = [];
-const max = 40;
+const max = 50;
 function inputInsert() {
     
     Exits[0] = [1, 1];              
@@ -90,11 +90,9 @@ function sleep(ms) {
 async function nextMove(row,col){
     let nextvalue=nonWall(row,col);
     console.log(nextvalue)
-    await sleep(30)
+    await sleep(1)
     for(let i=0;i<nextvalue.length;i++){
         if(await finishCheck(nextvalue[i][0],nextvalue[i][1])){
-            let nextobject=document.getElementById((nextvalue[i][0])+","+(nextvalue[i][1]));
-            nextobject.classList.add("Path");
             return true;
         }
     }
