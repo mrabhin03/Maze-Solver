@@ -69,6 +69,7 @@ function wallData(row,col){
     if(row==0 || col==0 || row==max-1 || col==max-1){
         // document.getElementById(row+","+col).style.backgroundColor="yellow"
     }else{
+        resetall()
         object=document.getElementById(row+","+col);
         if(object.classList.contains("wall")){
             object.classList.remove("wall")
