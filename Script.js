@@ -1,31 +1,66 @@
 const questionDiv = document.getElementById('question');
-Exits=[];
-function inputInsert(){
-    max=15;
-    Exits[0]=[0,1];
-    Exits[1]=[max-1,max-2];
-    questionDiv.style.gridTemplateColumns=`repeat(${max},1fr)`;
+let Exits = [];
+const max = 40;
+function inputInsert() {
+    
+    Exits[0] = [1, 1];              
+    Exits[1] = [max - 3, max - 2];
+
+    questionDiv.style.gridTemplateColumns = `repeat(${max}, 1fr)`;
+
+    const grid = Array.from({ length: max }, () => Array(max).fill('wall'));
+
+    function carvePath(row, col) {
+        grid[row][col] = 'path';
+
+        const directions = [
+            [0, 1], [1, 0], [0, -1], [-1, 0]
+        ].sort(() => Math.random() - 0.5);
+
+        for (const [dr, dc] of directions) {
+            const newRow = row + dr * 2;
+            const newCol = col + dc * 2;
+
+            if (newRow > 0 && newRow < max - 1 && newCol > 0 && newCol < max - 1 && grid[newRow][newCol] === 'wall') {
+                
+                grid[row + dr][col + dc] = 'path';
+                grid[newRow][newCol] = 'path';
+                carvePath(newRow, newCol);
+            }
+        }
+    }
+
+    carvePath(Exits[0][0], Exits[0][1]);
+
     for (let row = 0; row < max; row++) {
         for (let col = 0; col < max; col++) {
             const div = document.createElement('div');
-            div.id=row+","+col;
+            div.id = row + "," + col;
             div.classList.add('cell-input');
-            if(row==0 || col==0 || row==max-1 || col==max-1){
+
+            if (grid[row][col] === 'wall') {
                 div.classList.add('wall');
+            } else {
+                div.classList.add('path');
             }
+
             div.addEventListener('click', function() {
-                wallData(row,col)
+                wallData(row, col);
             });
+
             questionDiv.appendChild(div);
         }
     }
-    document.getElementById(Exits[0][0]+","+Exits[0][1]).classList.remove('wall')
-    document.getElementById(Exits[0][0]+","+Exits[0][1]).classList.add('Start')
-    document.getElementById(Exits[0][0]+","+Exits[0][1]).classList.add('Path')
-    
-    document.getElementById(Exits[1][0]+","+Exits[1][1]).classList.remove('wall')
-    document.getElementById(Exits[1][0]+","+Exits[1][1]).classList.add('End')
+
+    const startDiv = document.getElementById(Exits[0][0] + "," + Exits[0][1]);
+    startDiv.classList.remove('wall');
+    startDiv.classList.add('Start');
+
+    const endDiv = document.getElementById(Exits[1][0] + "," + Exits[1][1]);
+    endDiv.classList.remove('wall');
+    endDiv.classList.add('End');
 }
+
 inputInsert()
 
 
@@ -55,9 +90,9 @@ function sleep(ms) {
 async function nextMove(row,col){
     let nextvalue=nonWall(row,col);
     console.log(nextvalue)
-    await sleep(1)
+    await sleep(30)
     for(let i=0;i<nextvalue.length;i++){
-        if(finishCheck(nextvalue[i][0],nextvalue[i][1])){
+        if(await finishCheck(nextvalue[i][0],nextvalue[i][1])){
             let nextobject=document.getElementById((nextvalue[i][0])+","+(nextvalue[i][1]));
             nextobject.classList.add("Path");
             return true;
@@ -75,7 +110,7 @@ async function nextMove(row,col){
 }
 function nonWall(row,col){
     let NoWalls=[];
-    let nextvalue=[[(row+1),col],[(row-1),col],[row,(col-1)],[row,(col+1)]];
+    let nextvalue=[[row,(col+1)],[(row+1),col],[(row-1),col],[row,(col-1)],];
     for(let i=0;i<nextvalue.length;i++){
         if(nextvalue[i][0]>=0 && nextvalue[i][1]>=0){
             let object=document.getElementById((nextvalue[i][0])+","+(nextvalue[i][1]));
@@ -88,7 +123,8 @@ function nonWall(row,col){
 }
 
 function finishCheck(row,col){
-    if(document.getElementById((row+1)+","+col).classList.contains('End')){
+    if(document.getElementById((row)+","+col).classList.contains('End')){
+        console.log("FINSIH")
         return true
     }
 }
