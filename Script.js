@@ -1,6 +1,6 @@
 const questionDiv = document.getElementById('question');
 let Exits = [];
-const max = 30;
+const max = 50;
 reset=true;
 function inputInsert() {
     
@@ -52,7 +52,8 @@ function inputInsert() {
             questionDiv.appendChild(div);
         }
     }
-
+    let rands=0;
+    
     const startDiv = document.getElementById(Exits[0][0] + "," + Exits[0][1]);
     startDiv.classList.remove('wall');
     startDiv.classList.add('Start');
@@ -60,6 +61,18 @@ function inputInsert() {
     const endDiv = document.getElementById(Exits[1][0] + "," + Exits[1][1]);
     endDiv.classList.remove('wall');
     endDiv.classList.add('End');
+    while(rands<=max){
+        x=Math.floor(Math.random() * (max-2))+1
+        y=Math.floor(Math.random() * (max-2))+1
+        object=document.getElementById(x+","+y)
+        if(document.getElementById(x+","+y).classList.contains("wall")){
+            document.getElementById(x+","+y).classList.remove("wall")
+            rands++
+            
+        }
+        
+        
+    }
 }
 
 inputInsert()
@@ -209,7 +222,9 @@ async function fastMove(Paths,doubles) {
     await sleep(10);
     for (const element of Paths) {
         let nextvalue = nonWall(element[0], element[1]);
-
+        if(nextvalue.length==0){
+            document.getElementById(element[0]+ "," + element[1]).classList.add("wrong")
+        }
         for (let i = 0; i < nextvalue.length; i++) {
             if (await finishCheck(nextvalue[i][0], nextvalue[i][1])) {     
                 doubles.push([[element[0], element[1]],[nextvalue[i][0], nextvalue[i][1]]])    
