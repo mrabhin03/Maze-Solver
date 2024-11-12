@@ -50,7 +50,7 @@ h1{
     background-color: green !important;
   }
   .Path{
-    background-color: yellow !important;
+    background-color: yellow;
     animation: pathinsert .4s ease-in-out forwards ;
   
   }
@@ -102,4 +102,7 @@ h1{
   }
   .solver:active{
     transform: scale(0.96);
+  }
+  .wrong{
+    background-color: rgb(255, 201, 201) !important;
   }

@@ -112,6 +112,7 @@ async function nextMove(row,col){
             return true
         }
         nextobject.classList.remove("Path");
+        nextobject.classList.add("wrong");
     }
     return false
 }
@@ -121,7 +122,7 @@ function nonWall(row,col){
     for(let i=0;i<nextvalue.length;i++){
         if(nextvalue[i][0]>=0 && nextvalue[i][1]>=0){
             let object=document.getElementById((nextvalue[i][0])+","+(nextvalue[i][1]));
-            if(!(object.classList.contains('wall'))&& !(object.classList.contains('Path'))){
+            if(!(object.classList.contains('wall'))&& !(object.classList.contains('Path'))&& !(object.classList.contains('wrong'))){
                 NoWalls.push([nextvalue[i][0],nextvalue[i][1]])
             }
         }
@@ -161,6 +162,12 @@ function resetall(){
         objects=document.querySelectorAll(".Path");
         objects.forEach((elemant)=>{
             elemant.classList.remove('Path')
+
+        })
+        objects=document.querySelectorAll(".wrong");
+        objects.forEach((elemant)=>{
+            elemant.classList.remove('wrong')
+            
         })
     }
 }
