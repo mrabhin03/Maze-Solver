@@ -1,6 +1,6 @@
 const questionDiv = document.getElementById('question');
 let Exits = [];
-const max = 100;
+const max = 20;
 reset=true;
 function inputInsert() {
     
