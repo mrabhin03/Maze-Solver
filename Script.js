@@ -1,8 +1,8 @@
 const questionDiv = document.getElementById('question');
 let Exits = [];
-const max = 50;
+const max = 80;
 reset=true;
-function inputInsert() {
+async function inputInsert() {
     
     Exits[0] = [1, 1];              
     Exits[1] = [max - 3, max - 2];
@@ -32,8 +32,8 @@ function inputInsert() {
     }
 
     carvePath(Exits[0][0], Exits[0][1]);
-
     for (let row = 0; row < max; row++) {
+        await sleep(1)
         for (let col = 0; col < max; col++) {
             const div = document.createElement('div');
             div.id = row + "," + col;
@@ -61,7 +61,8 @@ function inputInsert() {
     const endDiv = document.getElementById(Exits[1][0] + "," + Exits[1][1]);
     endDiv.classList.remove('wall');
     endDiv.classList.add('End');
-    while(rands<=max){
+    whilecount=0;
+    while(rands<=max*5){
         x=Math.floor(Math.random() * (max-2))+1
         y=Math.floor(Math.random() * (max-2))+1
         object=document.getElementById(x+","+y)
@@ -70,6 +71,10 @@ function inputInsert() {
             rands++
             
         }
+        if(whilecount>=2000){
+            break;
+        }
+        whilecount++;
         
         
     }
@@ -182,6 +187,11 @@ function resetall(){
             elemant.classList.remove('wrong')
             
         })
+        objects=document.querySelectorAll(".Finish");
+        objects.forEach((elemant)=>{
+            elemant.classList.remove('Finish')
+            
+        })
     }
 }
 async function removeNonPath(correctPath) {
@@ -191,8 +201,9 @@ async function removeNonPath(correctPath) {
     reset=false
     correctPath.forEach(element => {
         console.log((element))
-        document.getElementById((element[0]) + "," + (element[1])).classList.add('Path');
+        document.getElementById((element[0]) + "," + (element[1])).classList.add('Finish');
     });
+    await sleep(5);
     finished()
 }
 
@@ -206,13 +217,11 @@ async function fastWay() {
     start.push(Exits[0]);
     let doubles=[]
     if (await fastMove(start,doubles)) {
-        
         const path = findPath(Exits[1],doubles);
-        console.log(path);
         await removeNonPath(path);
     } else {
-alert('No Path Found')
-reset=true;
+        alert('No Path Found')
+        reset=true;
     }
 }
 
