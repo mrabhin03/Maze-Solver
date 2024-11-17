@@ -1,84 +1,95 @@
 const questionDiv = document.getElementById('question');
 let Exits = [];
-const max = 80;
-reset=true;
-async function inputInsert() {
-    
-    Exits[0] = [1, 1];              
-    Exits[1] = [max - 3, max - 2];
+const max = 50; 
+ rownum = max; 
+ colnum = max;   
+reset = true;
 
-    questionDiv.style.gridTemplateColumns = `repeat(${max}, 1fr)`;
+function inputInsert() {
+    const grid = Array.from({ length: rownum }, () => Array(colnum).fill('wall'));
+    questionDiv.style.gridTemplateColumns = `repeat(${colnum}, 1fr)`;
 
-    const grid = Array.from({ length: max }, () => Array(max).fill('wall'));
+    Exits = [
+        [1, 1],              
+        [rownum - 3, colnum - 2] 
+    ];
 
-    function carvePath(row, col) {
-        grid[row][col] = 'path';
+    function carvePath(startRow, startCol) {
+        const stack = [[startRow, startCol]];
+        grid[startRow][startCol] = 'path';
 
-        const directions = [
-            [0, 1], [1, 0], [0, -1], [-1, 0]
-        ].sort(() => Math.random() - 0.5);
+        while (stack.length) {
+            const [row, col] = stack.pop();
 
-        for (const [dr, dc] of directions) {
-            const newRow = row + dr * 2;
-            const newCol = col + dc * 2;
+            const directions = [
+                [0, 1], [1, 0], [0, -1], [-1, 0]
+            ].sort(() => Math.random() - 0.5);
 
-            if (newRow > 0 && newRow < max - 1 && newCol > 0 && newCol < max - 1 && grid[newRow][newCol] === 'wall') {
-                
-                grid[row + dr][col + dc] = 'path';
-                grid[newRow][newCol] = 'path';
-                carvePath(newRow, newCol);
+            for (const [dr, dc] of directions) {
+                const newRow = row + dr * 2;
+                const newCol = col + dc * 2;
+
+                if (
+                    newRow > 0 && newRow < rownum - 1 &&
+                    newCol > 0 && newCol < colnum - 1 &&
+                    grid[newRow][newCol] === 'wall'
+                ) {
+                    grid[row + dr][col + dc] = 'path';
+                    grid[newRow][newCol] = 'path';
+                    stack.push([newRow, newCol]);
+                }
             }
         }
     }
 
     carvePath(Exits[0][0], Exits[0][1]);
-    for (let row = 0; row < max; row++) {
-        await sleep(1)
-        for (let col = 0; col < max; col++) {
+
+    const fragment = document.createDocumentFragment();
+    for (let row = 0; row < rownum; row++) {
+        for (let col = 0; col < colnum; col++) {
             const div = document.createElement('div');
-            div.id = row + "," + col;
-            div.classList.add('cell-input');
+            div.id = `${row},${col}`;
+            div.classList.add('cell-input', grid[row][col]);
 
-            if (grid[row][col] === 'wall') {
-                div.classList.add('wall');
-            } else {
-                div.classList.add('path');
-            }
+            div.addEventListener('click', () => wallData(row, col));
 
-            div.addEventListener('click', function() {
-                wallData(row, col);
-            });
-
-            questionDiv.appendChild(div);
+            fragment.appendChild(div);
         }
     }
-    let rands=0;
-    
-    const startDiv = document.getElementById(Exits[0][0] + "," + Exits[0][1]);
+
+    questionDiv.innerHTML = '';
+    questionDiv.appendChild(fragment);
+
+    const startDiv = document.getElementById(`${Exits[0][0]},${Exits[0][1]}`);
     startDiv.classList.remove('wall');
     startDiv.classList.add('Start');
 
-    const endDiv = document.getElementById(Exits[1][0] + "," + Exits[1][1]);
+    const endDiv = document.getElementById(`${Exits[1][0]},${Exits[1][1]}`);
     endDiv.classList.remove('wall');
     endDiv.classList.add('End');
-    whilecount=0;
-    while(rands<=max*5){
-        x=Math.floor(Math.random() * (max-2))+1
-        y=Math.floor(Math.random() * (max-2))+1
-        object=document.getElementById(x+","+y)
-        if(document.getElementById(x+","+y).classList.contains("wall")){
-            document.getElementById(x+","+y).classList.remove("wall")
-            rands++
-            
+
+    let rands = 0;
+    const targetClears = max*2;
+    const cleared = new Set();
+    WhileCount=0
+    while (rands < targetClears) {
+        if(WhileCount>2000){
+            break
         }
-        if(whilecount>=2000){
-            break;
+        const x = Math.floor(Math.random() * (rownum - 2)) + 1;
+        const y = Math.floor(Math.random() * (colnum - 2)) + 1;
+        const id = `${x},${y}`;
+
+        if (grid[x][y] === 'wall' && !cleared.has(id)) {
+            document.getElementById(id).classList.remove('wall');
+            cleared.add(id);
+            rands++;
         }
-        whilecount++;
-        
+        WhileCount++;
         
     }
 }
+
 
 inputInsert()
 
@@ -200,7 +211,6 @@ async function removeNonPath(correctPath) {
     resetall()
     reset=false
     correctPath.forEach(element => {
-        console.log((element))
         document.getElementById((element[0]) + "," + (element[1])).classList.add('Finish');
     });
     await sleep(5);
