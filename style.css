@@ -6,6 +6,10 @@ body,html{
 :root{
   --Size:10px;
 }
+::-webkit-scrollbar{
+  width: 0;
+  height: 0;
+}
 body{
   font-family: sans-serif;
     display: grid;
