@@ -67,7 +67,7 @@ h1{
   .Finish{
     z-index: 2;
     background-color: yellow;
-    animation: correctpath 2s ease-in-out forwards;
+    animation: correctpath 5s ease-in-out forwards;
   }
   @keyframes correctpath {
     from{

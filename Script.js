@@ -14,30 +14,37 @@ function inputInsert() {
         [rownum - 3, colnum - 2] 
     ];
 
-    function carvePath(startRow, startCol) {
-        const stack = [[startRow, startCol]];
-        grid[startRow][startCol] = 'path';
+    function carvePath(row, col) {
+        const stack = [[row, col]];
+        grid[row][col] = 'path';
 
         while (stack.length) {
-            const [row, col] = stack.pop();
-
+            const [currentRow, currentCol] = stack[stack.length - 1];
             const directions = [
                 [0, 1], [1, 0], [0, -1], [-1, 0]
-            ].sort(() => Math.random() - 0.5);
+            ].sort(() => Math.random() - 0.5); 
 
+            let moved = false;
             for (const [dr, dc] of directions) {
-                const newRow = row + dr * 2;
-                const newCol = col + dc * 2;
+                const newRow = currentRow + dr * 2;
+                const newCol = currentCol + dc * 2;
 
                 if (
                     newRow > 0 && newRow < rownum - 1 &&
                     newCol > 0 && newCol < colnum - 1 &&
                     grid[newRow][newCol] === 'wall'
                 ) {
-                    grid[row + dr][col + dc] = 'path';
+                    
+                    grid[currentRow + dr][currentCol + dc] = 'path';
                     grid[newRow][newCol] = 'path';
-                    stack.push([newRow, newCol]);
+                    stack.push([newRow, newCol]); 
+                    moved = true;
+                    break;
                 }
+            }
+
+            if (!moved) {
+                stack.pop();
             }
         }
     }
@@ -71,10 +78,11 @@ function inputInsert() {
     let rands = 0;
     const targetClears = max*2;
     const cleared = new Set();
-    WhileCount=0
+    let WhileCount = 0;
+
     while (rands < targetClears) {
-        if(WhileCount>2000){
-            break
+        if (WhileCount > 2000) {
+            break;
         }
         const x = Math.floor(Math.random() * (rownum - 2)) + 1;
         const y = Math.floor(Math.random() * (colnum - 2)) + 1;
@@ -86,13 +94,14 @@ function inputInsert() {
             rands++;
         }
         WhileCount++;
-        
     }
-    let tempPath=document.querySelectorAll(".path");
-    tempPath.forEach((el)=>{
-        el.classList.remove("path")
-    })
+
+    let tempPath = document.querySelectorAll(".path");
+    tempPath.forEach((el) => {
+        el.classList.remove("path");
+    });
 }
+
 
 
 inputInsert()
