@@ -41,7 +41,6 @@ h1{
     font-size: 20px;
     border: 0px solid black;
     box-sizing: border-box;
-    
     background-color: #f0f0f0;
     cursor: pointer;
   }
@@ -66,8 +65,9 @@ h1{
     box-shadow: 0 0 1px 1px greenyellow;
   }
   .Finish{
+    z-index: 2;
     background-color: yellow;
-    animation: correctpath 5s ease-in-out forwards;
+    animation: correctpath 2s ease-in-out forwards;
   }
   @keyframes correctpath {
     from{

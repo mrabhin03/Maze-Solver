@@ -88,6 +88,10 @@ function inputInsert() {
         WhileCount++;
         
     }
+    let tempPath=document.querySelectorAll(".path");
+    tempPath.forEach((el)=>{
+        el.classList.remove("path")
+    })
 }
 
 
@@ -241,12 +245,18 @@ async function fastMove(Paths,doubles) {
     await sleep(10);
     for (const element of Paths) {
         let nextvalue = nonWall(element[0], element[1]);
+        
+        
         if(nextvalue.length==0){
-            document.getElementById(element[0]+ "," + element[1]).classList.add("wrong")
+            if(!(document.getElementById(element[0]+","+element[1]).classList.contains("Start"))){
+                doubles=await doublesClear(doubles,element)
+                document.getElementById(element[0]+ "," + element[1]).classList.add("wrong")
+            }
         }
+        
         for (let i = 0; i < nextvalue.length; i++) {
             if (await finishCheck(nextvalue[i][0], nextvalue[i][1])) {     
-                doubles.push([[element[0], element[1]],[nextvalue[i][0], nextvalue[i][1]]])    
+                doubles.push([[element[0], element[1]],[nextvalue[i][0], nextvalue[i][1]]])   
                 return true;
             }
         }
@@ -276,7 +286,7 @@ function areArraysEqual(arr1, arr2) {
 function findPath(start,data) {
     let result = [start];
     let current = start;
-    while (!areArraysEqual(current, [1, 1])) {
+    while (!areArraysEqual(current, Exits[0])) {
         let found = false;
         for (let i = 0; i < data.length; i++) {
             if (areArraysEqual(data[i][1], current)) {
@@ -288,8 +298,43 @@ function findPath(start,data) {
         }
         if (!found) break; 
     }
-
     return result;
+}
+function doublesClear(doubles,element){
+    let terminated=element;
+    k=0
+    while(true){
+        count=0;
+        for (let i = 0; i < doubles.length; i++) {
+            if (areArraysEqual(doubles[i][0], terminated)) {
+                count++;
+            }
+        }
+        if(count==0){
+            for (let i = 0; i < doubles.length; i++) {
+                if (areArraysEqual(doubles[i][1], terminated)) {
+                    terminated=doubles[i][0]
+                    index=doubles.indexOf(doubles[i])
+                    if (index !== -1) {
+                        doubles.splice(index, 1);
+                    }
+                }
+            }
+        }else{
+            break;
+        }
+        k++
+    }
+    return doubles
+}
+
+
+function newArraysEqual(arr1, arr2) {
+    if (arr1.length !== arr2.length) return false;
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) return false;
+    }
+    return true;
 }
 
 
