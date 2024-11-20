@@ -4,6 +4,7 @@ const max = 50;
  rownum = max; 
  colnum = max;   
 reset = true;
+alert(window.innerWidth)
 
 function inputInsert() {
     const grid = Array.from({ length: rownum }, () => Array(colnum).fill('wall'));
