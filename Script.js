@@ -2,7 +2,7 @@ const questionDiv = document.getElementById('question');
 let Exits = [];
 const max = 50; 
  rownum = max; 
- colnum = (window.innerWidth)-((window.innerWidth/100)*10);   
+ colnum = max;   
 reset = true;
 
 function inputInsert() {
