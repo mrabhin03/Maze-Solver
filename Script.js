@@ -2,9 +2,8 @@ const questionDiv = document.getElementById('question');
 let Exits = [];
 const max = 50; 
  rownum = max; 
- colnum = max;   
+ colnum = (window.innerWidth)-((window.innerWidth/100)*10);   
 reset = true;
-alert("hi")
 
 function inputInsert() {
     const grid = Array.from({ length: rownum }, () => Array(colnum).fill('wall'));
