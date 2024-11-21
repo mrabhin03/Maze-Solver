@@ -4,7 +4,7 @@ body,html{
     background-color: rgb(28, 28, 28);
 }
 :root{
-  --Size:10px;
+  --Size:5px;
 }
 ::-webkit-scrollbar{
   width: 0;

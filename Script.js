@@ -1,9 +1,16 @@
 const questionDiv = document.getElementById('question');
 let Exits = [];
-const max = 50; 
- rownum = max; 
- colnum = max;   
+var max = 50; 
+ rownum = parseInt(((window.innerHeight)/100)*15);
+ colnum = parseInt(((window.innerWidth)/100)*16); 
+//  rownum=colnum=max;
 reset = true;
+if(rownum%2==0){
+    rownum+=1;
+}
+if(colnum%2==0){
+    colnum+=1;
+}
 
 function inputInsert() {
     const grid = Array.from({ length: rownum }, () => Array(colnum).fill('wall'));
@@ -11,7 +18,7 @@ function inputInsert() {
 
     Exits = [
         [1, 1],              
-        [rownum - 3, colnum - 2] 
+        [rownum - 2, colnum - 2] 
     ];
 
     function carvePath(row, col) {
@@ -76,7 +83,7 @@ function inputInsert() {
     endDiv.classList.add('End');
 
     let rands = 0;
-    const targetClears = max*2;
+    const targetClears = rownum*2;
     const cleared = new Set();
     let WhileCount = 0;
 
@@ -109,7 +116,7 @@ inputInsert()
 
 function wallData(row,col){
 
-    if(row==0 || col==0 || row==max-1 || col==max-1){
+    if(row==0 || col==0 || row==rownum-1 || col==colnum-1){
         // document.getElementById(row+","+col).style.backgroundColor="yellow"
     }else{
         resetall()
@@ -178,18 +185,18 @@ function finishCheck(row,col){
     }
 }
 async function finished(){
-    for(ii=max-1;ii>=0;ii--){
+    for(ii=rownum-1;ii>=0;ii--){
         await sleep(20)
-        for(iii=max-1;iii>=0;iii--){
+        for(iii=colnum-1;iii>=0;iii--){
             let object=document.getElementById((ii)+","+(iii));
             if(object.classList.contains('Path')){
                 object.classList.add('pass')
             }
         }
     }
-    for(ii=max-1;ii>=0;ii--){
+    for(ii=rownum-1;ii>=0;ii--){
         await sleep(20)
-        for(iii=max-1;iii>=0;iii--){
+        for(iii=colnum-1;iii>=0;iii--){
             let object=document.getElementById((ii)+","+(iii));
             if(object.classList.contains('Path')){
                 object.classList.remove('pass')
