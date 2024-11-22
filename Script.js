@@ -2,7 +2,7 @@ const questionDiv = document.getElementById('question');
 let Exits = [];
 var max = 80; 
  rownum = parseInt(((window.innerHeight)/100)*20);
- colnum = parseInt(((window.innerWidth)/100)*23); 
+ colnum = parseInt(((window.innerWidth)/100)*20.5); 
 //  rownum=colnum=max;
 reset = true;
 if(rownum%2==0){
