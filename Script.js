@@ -1,8 +1,8 @@
 const questionDiv = document.getElementById('question');
 let Exits = [];
-var max = 50; 
- rownum = parseInt(((window.innerHeight)/100)*15);
- colnum = parseInt(((window.innerWidth)/100)*16); 
+var max = 80; 
+ rownum = parseInt(((window.innerHeight)/100)*20);
+ colnum = parseInt(((window.innerWidth)/100)*23); 
 //  rownum=colnum=max;
 reset = true;
 if(rownum%2==0){
@@ -83,12 +83,14 @@ function inputInsert() {
     endDiv.classList.add('End');
 
     let rands = 0;
-    const targetClears = rownum*2;
     const cleared = new Set();
     let WhileCount = 0;
+    let WallsData=document.querySelectorAll(".wall");
+    targetClears=parseInt((WallsData.length/100)*13)
+    // console.log("TotalWall: "+(WallsData.length)+"  Deletes: "+targetClears)
 
     while (rands < targetClears) {
-        if (WhileCount > 2000) {
+        if (WhileCount > WallsData.length) {
             break;
         }
         const x = Math.floor(Math.random() * (rownum - 2)) + 1;
