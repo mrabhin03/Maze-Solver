@@ -83,7 +83,7 @@ h1{
       transform: scale(1);
     }
     50%{
-      transform: scale(1.4);
+      transform: scale(1.8);
     }
     100%{
       background-color: rgb(236, 236, 12);

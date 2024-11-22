@@ -188,7 +188,7 @@ function finishCheck(row,col){
 }
 async function finished(){
     for(ii=rownum-1;ii>=0;ii--){
-        await sleep(20)
+        await sleep(1)
         for(iii=colnum-1;iii>=0;iii--){
             let object=document.getElementById((ii)+","+(iii));
             if(object.classList.contains('Path')){
@@ -197,7 +197,7 @@ async function finished(){
         }
     }
     for(ii=rownum-1;ii>=0;ii--){
-        await sleep(20)
+        await sleep(1)
         for(iii=colnum-1;iii>=0;iii--){
             let object=document.getElementById((ii)+","+(iii));
             if(object.classList.contains('Path')){
