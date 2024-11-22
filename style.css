@@ -1,7 +1,7 @@
 body,html{
     width: 100%;
     height: 100%;
-    background-color: rgb(28, 28, 28);
+    background-color: rgb(33, 33, 33);
 }
 :root{
   --Size:4px;
@@ -20,11 +20,13 @@ body>div{
    align-items: center;
    justify-content: center;
    flex-direction: column;
-   gap: 10px;
+   gap: 5px;
 }
 h1{
     font-family: sans-serif;
     color: white;
+    margin: 0;
+    font-size: 20px;
 }
 #question{
     display: grid;
@@ -33,6 +35,10 @@ h1{
     border: 5px solid black;
     border-radius: 10px;
     overflow: hidden;
+    background-color: white;
+    /* background-image: url(https://ideas.darden.virginia.edu/sites/default/files/styles/full_width_1024px_5_3_/public/2024-09/AI%20ART%20ITA.jpg?itok=CIaF2iIX);
+    background-position: center;
+    background-size: cover; */
   }
   .cell-input {
     width: var(--Size);
@@ -41,7 +47,7 @@ h1{
     font-size: 20px;
     border: 0px solid black;
     box-sizing: border-box;
-    background-color: #f0f0f0;
+    background-color: transparent;
     cursor: pointer;
   }
   .cell-input.wall{

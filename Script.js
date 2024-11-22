@@ -2,7 +2,7 @@ const questionDiv = document.getElementById('question');
 let Exits = [];
 var max = 80; 
  rownum = parseInt(((window.innerHeight)/100)*20);
- colnum = parseInt(((window.innerWidth)/100)*20.5); 
+ colnum = parseInt(((window.innerWidth)/100)*19.8); 
 //  rownum=colnum=max;
 reset = true;
 if(rownum%2==0){
@@ -86,22 +86,25 @@ function inputInsert() {
     const cleared = new Set();
     let WhileCount = 0;
     let WallsData=document.querySelectorAll(".wall");
-    targetClears=parseInt((WallsData.length/100)*13)
+    targetClears=parseInt((WallsData.length/100)*12)
     // console.log("TotalWall: "+(WallsData.length)+"  Deletes: "+targetClears)
 
     while (rands < targetClears) {
         if (WhileCount > WallsData.length) {
             break;
         }
-        const x = Math.floor(Math.random() * (rownum - 2)) + 1;
-        const y = Math.floor(Math.random() * (colnum - 2)) + 1;
-        const id = `${x},${y}`;
-
-        if (grid[x][y] === 'wall' && !cleared.has(id)) {
-            document.getElementById(id).classList.remove('wall');
-            cleared.add(id);
+        let tempWall=document.querySelectorAll(".wall");
+        randomIndex = Math.floor(Math.random() * tempWall.length);
+        let ChoosenObject=tempWall[randomIndex];
+        let id = ChoosenObject.id.split(",");
+        x=id[0];
+        y=id[1];
+        if(x!=0 && y!=0 && x!=rownum-1 && y!=colnum-1){
+            if(ChoosenObject.classList.contains("wall")){
+                ChoosenObject.classList.remove("wall")
+            }
             rands++;
-        }
+        }   
         WhileCount++;
     }
 
