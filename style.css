@@ -20,7 +20,7 @@ body>div{
    align-items: center;
    justify-content: center;
    flex-direction: column;
-   gap: 5px;
+   /* gap: 5px; */
 }
 h1{
     font-family: sans-serif;
@@ -28,7 +28,19 @@ h1{
     margin: 0;
     font-size: 20px;
 }
+#times{
+  margin: 5px;
+}
+.times{
+  margin: 10px;
+  font-size: 13px;
+  background-color: rgb(24, 105, 162);
+  padding: 3px 10px;
+  border-radius: 5px;
+  color: white;
+}
 #question{
+  margin-bottom: 15px;
     display: grid;
     grid-template-columns: repeat(9, var(--Size));
     /* grid-template-rows: repeat(9, 30px); */

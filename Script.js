@@ -1,9 +1,11 @@
 const questionDiv = document.getElementById('question');
+const timesP= document.getElementById("times");
 let Exits = [];
-var max = 80; 
+var max = 50; 
  rownum = parseInt(((window.innerHeight)/100)*20);
  colnum = parseInt(((window.innerWidth)/100)*19.8); 
 //  rownum=colnum=max;
+let StartTime=null;
 reset = true;
 if(rownum%2==0){
     rownum+=1;
@@ -138,13 +140,18 @@ async function findWay(){
     if(!reset){
         return
     }
+    timesP.classList.remove("times");
+    timesP.innerHTML=''
     reset=false;
     start=Exits[0];
+    StartTime=new Date();
     if(!(await nextMove(start[0],start[1]))){
         alert('No Path Found')
         reset=true;
     }else{
+        duration(StartTime);
         finished()
+
     }
 
 }
@@ -251,19 +258,27 @@ async function fastWay() {
     let start = [];
     start.push(Exits[0]);
     let doubles=[]
+    timesP.classList.remove("times");
+    timesP.innerHTML=''
+    StartTime=new Date();
     if (await fastMove(start,doubles)) {
         const path = findPath(Exits[1],doubles);
+        duration(StartTime);
         await removeNonPath(path);
     } else {
         alert('No Path Found')
         reset=true;
     }
 }
-
+let Switch=0;
 
 async function fastMove(Paths,doubles) {
     let tempPath = [];
-    await sleep(10);
+    if(Switch%3==0){
+        await sleep(0);
+    }
+    Switch++;
+
     for (const element of Paths) {
         let nextvalue = nonWall(element[0], element[1]);
         
@@ -357,5 +372,27 @@ function newArraysEqual(arr1, arr2) {
     }
     return true;
 }
+
+function duration(startTime) {
+    const now = new Date();
+    const diffMs = now - new Date(startTime); 
+
+    const totalSeconds = Math.floor(diffMs / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    const milliseconds = diffMs % 1000;
+    let TimeOut=``;
+
+    if (minutes > 0) {
+        TimeOut= `${minutes}min${minutes > 1 ? 's' : ''} ${seconds}sec ${milliseconds}ms`;
+    } else if (seconds > 0) {
+        TimeOut= `${seconds}sec ${milliseconds}ms`;
+    } else {
+        TimeOut= `${milliseconds}ms`;
+    }
+    timesP.innerHTML=`Time Taken: `+TimeOut;
+    timesP.classList.add("times")
+}
+
 
 
