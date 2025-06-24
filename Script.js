@@ -2,7 +2,7 @@ const questionDiv = document.getElementById('question');
 const timesP= document.getElementById("times");
 let Exits = [];
 var max = 50; 
- rownum = parseInt(((window.innerHeight)/100)*20);
+ rownum = parseInt(((window.innerHeight)/100)*17);
  colnum = parseInt(((window.innerWidth)/100)*19.8); 
 //  rownum=colnum=max;
 let StartTime=null;
