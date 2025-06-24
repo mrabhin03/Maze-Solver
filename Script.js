@@ -179,7 +179,7 @@ async function nextMove(row,col){
 }
 function nonWall(row,col){
     let NoWalls=[];
-    let nextvalue=[[row,(col-1)],[(row+1),col],[(row-1),col],[row,(col+1)]];
+    let nextvalue=[[row,(col+1)],[(row+1),col],[row,(col-1)],[(row-1),col]];
     for(let i=0;i<nextvalue.length;i++){
         if(nextvalue[i][0]>=0 && nextvalue[i][1]>=0){
             let object=document.getElementById((nextvalue[i][0])+","+(nextvalue[i][1]));
